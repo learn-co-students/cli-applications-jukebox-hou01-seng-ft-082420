@@ -1,5 +1,3 @@
-require 'pry'
-
 songs = [
   "Phoenix - 1901",
   "Tokyo Police Club - Wait Up",
@@ -20,18 +18,18 @@ puts "- play : lets you choose a song to play"
 puts "- exit : exits this program"
 end
 
+  
 def play(songs)
-  puts "Please enter a song name or number:"
-  input = gets.strip
-    songs.each_with_index do |song,index|
-      if input == (index + 1).to_s || input == song
-        puts "#{song}"
-      end
-      if input != (index + 1).to_s && input != song
-        puts "Invalid input, please try again"
-      end
-    end
+puts "Please enter a song name or number:"
+input = gets.chomp
+if (1..(songs.length)).include?(input.to_i)
+  puts "Playing #{songs[input.to_i - 1]}"
+  elsif songs.include?(input)
+    puts "Playing #{input}"
+    else
+      puts "Invalid input, please try again"
   end
+end
 
 def list(songs)
   songs.each_with_index do |song,index|
@@ -43,19 +41,23 @@ def exit_jukebox
   puts "Goodbye"
 end
 
-def run
-  puts "Please enter a command:"
+def run(songs)
+ prompt = puts "Please enter a command:"
   input = gets.strip
-  while input != "exit"
+  until input == "exit"
     if input == "list"
       list(songs)
+      prompt
+      input = gets.strip
       elsif input == "play"
         play(songs)
+        prompt
+        input = gets.strip
         elsif input == "help"
           help
-        end
-      end
-      if input == "exit"
-        exit_jukebox
+          prompt
+          input = gets.strip
+    end
   end
+  exit_jukebox
 end
